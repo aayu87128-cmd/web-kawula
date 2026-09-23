@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Web Kawula - Unggah Ungguh Basa</title>
-
-    <!-- QR Code -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
     <style>
         * {
@@ -26,7 +22,7 @@
             background: linear-gradient(135deg, #6c63ff, #8f87ff);
             color: white;
             text-align: center;
-            padding: 35px 20px;
+            padding: 40px 20px;
         }
 
         header h1 {
@@ -40,14 +36,213 @@
 
         nav {
             background: white;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
             padding: 15px;
+            text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            flex-wrap: wrap;
         }
 
-        nav button {
+        nav a {
+            text-decoration: none;
+            color: #6c63ff;
+            font-weight: bold;
+            margin: 0 15px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            color: #6c63ff;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        button {
+            background: #6c63ff;
+            color: white;
             border: none;
-            background
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #554dcc;
+        }
+
+        .jawaban {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f0eeff;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .susun {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .kata {
+            background: #8f87ff;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        #hasilSusun {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #6c63ff;
+        }
+
+        footer {
+            text-align: center;
+            background: #6c63ff;
+            color: white;
+            padding: 20px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Web Kawula</h1>
+    <p>Sinau Basa Jawa - Unggah Ungguh</p>
+</header>
+
+<nav>
+    <a href="#materi">Materi</a>
+    <a href="#mendengar">Mendengar</a>
+    <a href="#mengulang">Mengulang</a>
+    <a href="#menyusun">Menyusun</a>
+</nav>
+
+<div class="container">
+
+    <div class="card" id="materi">
+        <h2>📚 Apa iku Unggah Ungguh?</h2>
+        <p>
+            Unggah ungguh yaiku tata krama nalika nggunakake basa Jawa
+            supaya bisa ngajeni wong liya miturut umur, kedudukan, lan kahanan.
+        </p>
+
+        <p>
+            Conto: nalika ngomong karo guru, kita nggunakake basa sing luwih sopan.
+        </p>
+    </div>
+
+    <div class="card" id="mendengar">
+        <h2>🔊 1. Mendengar</h2>
+        <p>Tekan tombol kanggo ngrungokake ukara Basa Jawa.</p>
+
+        <button onclick="bicara('Sugeng enjing, Bu Guru. Kula nyuwun pangapunten.')">
+            ▶️ Dengarkan
+        </button>
+    </div>
+
+    <div class="card" id="mengulang">
+        <h2>🗣️ 2. Mengulang</h2>
+        <p>
+            Coba ucapkan kembali kalimat berikut:
+        </p>
+
+        <p><b>"Sugeng enjing, Bu Guru."</b></p>
+
+        <button onclick="bicara('Sugeng enjing, Bu Guru.')">
+            🔊 Dengarkan Contoh
+        </button>
+
+        <button onclick="tampilJawaban()">
+            ✓ Lihat Jawaban
+        </button>
+
+        <div class="jawaban" id="jawaban">
+            <b>Jawaban:</b> Sugeng enjing, Bu Guru.
+        </div>
+    </div>
+
+    <div class="card" id="menyusun">
+        <h2>🧩 3. Menyusun Kalimat</h2>
+
+        <p>Susun kata berikut menjadi kalimat yang benar:</p>
+
+        <div class="susun">
+            <span class="kata" onclick="tambahKata('Guru')">Guru</span>
+            <span class="kata" onclick="tambahKata('Bu')">Bu</span>
+            <span class="kata" onclick="tambahKata('Sugeng')">Sugeng</span>
+            <span class="kata" onclick="tambahKata('enjing')">enjing</span>
+        </div>
+
+        <button onclick="cekJawaban()">Cek Jawaban</button>
+        <button onclick="resetKata()">Reset</button>
+
+        <p id="hasilSusun"></p>
+    </div>
+
+</div>
+
+<footer>
+    <p>© 2026 Web Kawula - Unggah Ungguh Basa Jawa</p>
+</footer>
+
+<script>
+    function bicara(teks) {
+        const suara = new SpeechSynthesisUtterance(teks);
+        suara.lang = "id-ID";
+        speechSynthesis.speak(suara);
+    }
+
+    function tampilJawaban() {
+        document.getElementById("jawaban").style.display = "block";
+    }
+
+    let kalimat = [];
+
+    function tambahKata(kata) {
+        kalimat.push(kata);
+        document.getElementById("hasilSusun").innerText =
+            kalimat.join(" ");
+    }
+
+    function cekJawaban() {
+        let jawaban = kalimat.join(" ");
+
+        if (jawaban === "Sugeng enjing Bu Guru") {
+            document.getElementById("hasilSusun").innerText =
+                "✅ Benar! Apik banget!";
+        } else {
+            document.getElementById("hasilSusun").innerText =
+                "❌ Belum benar. Coba susun lagi.";
+        }
+    }
+
+    function resetKata() {
+        kalimat = [];
+        document.getElementById("hasilSusun").innerText = "";
+    }
+</script>
+
+</body>
+</html>
